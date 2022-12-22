@@ -119,18 +119,4 @@ def start():
 
 
 if __name__ == "__main__":
-    print(
-        selector(
-            ["V", "J", "S"],  # , "Ysh", "P", "H"],
-            {
-                "V": ["J"],
-                "J": ["S"],
-                # "P": ["H"],
-                "S": ["V"],
-                # "Ysh": [],
-                # "H": ["P", "Ysh"],
-            },
-        )
-    )
-
     start()
