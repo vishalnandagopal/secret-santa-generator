@@ -53,8 +53,12 @@ def unique_names(names: list[str]) -> list[str]:
     return list(set(list(map(lambda x: x.strip().casefold(), names))))
 
 
-def get_excluded_names(names: list[str]) -> dict[str, list[str]]:
+def get_excluded_names(
+    names: list[str], no_exludes: bool = False
+) -> dict[str, list[str]]:
     excluded_dict = {name: [""] for name in names}
+    if no_exludes:
+        return excluded_dict
     for name in names:
         add_to_excluded_dict = False
         print(
@@ -93,7 +97,9 @@ def get_excluded_names(names: list[str]) -> dict[str, list[str]]:
 def start():
     host_name = input("Enter name of the host: ")
     is_host_participating = (
-        True if input(f"Is {host_name} participating? [Y/n] ").casefold() in yeses else False
+        True
+        if input(f"Is {host_name} participating? [Y/n] ").casefold() in yeses
+        else False
     )
 
     names = input(
@@ -107,15 +113,27 @@ def start():
 
     exclude_certain_people_from_getting_certain_people = (
         True
-        if input(f"Exclude certain people from getting certain people? [Y/n] ").casefold() in yeses
+        if input(
+            f"Exclude certain people from getting certain people? [Y/n] "
+        ).casefold()
+        in yeses
         else False
     )
 
-    if exclude_certain_people_from_getting_certain_people:
-        excluded_dict = get_excluded_names(names)
+    excluded_dict = get_excluded_names(
+        names, not exclude_certain_people_from_getting_certain_people
+    )
 
     selected_names = selector(names, excluded_dict)
-    print(selected_names)
+
+    print("Time to view the person you have to gift!")
+    print(
+        "Enter your names one-by-one, and don't look at the screen when you're not entering your name!"
+    )
+
+    for i in range(len(selected_names)):
+        your_name = input("Enter your name: ")
+        print(f"You have to gift {selected_names[your_name.casefold()].title()}")
 
 
 if __name__ == "__main__":
